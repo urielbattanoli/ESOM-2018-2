@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.change_vision.astah</groupId>
+  <artifactId>groovy-archetype-plugin</artifactId>
+  <versioning>
+    <versions>
+      <version>0.8.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170929062106</lastUpdated>
+  </versioning>
+</metadata>

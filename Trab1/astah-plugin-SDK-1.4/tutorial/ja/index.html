@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astah* Plug-in開発チュートリアル &mdash; astah* Plug-in 開発チュートリアル 1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="astah* Plug-in 開発チュートリアル 1.2 documentation" href="#" />
+    <link rel="next" title="astah*のプラグイン機構の仕組み" href="overview.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="astah*のプラグイン機構の仕組み"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">astah* Plug-in開発チュートリアル</a><ul>
+<li><a class="reference internal" href="#id1">チュートリアルで動作確認したバージョン</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="next chapter">astah*のプラグイン機構の仕組み</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="astah-plug-in">
+<h1>astah* Plug-in開発チュートリアル<a class="headerlink" href="#astah-plug-in" title="Permalink to this headline">¶</a></h1>
+<p>astah*のプラグイン機構は、astah*に自作の機能を追加し、機能拡張を実現する仕組みです。astah*のプラグインを作成することで、メニューや拡張ビューなど、astah*のGUIに独自のコンポーネントを追加できます。本チュートリアルでは、サンプルを中心にastah*プラグインの作り方を紹介します。</p>
+<div class="section" id="id1">
+<h2>チュートリアルで動作確認したバージョン<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>本チュートリアルでは、次のバージョンで動作を確認しています。他のバージョンでも開発できますが、チュートリアル記載の内容とは設定や画面が異なる場合があります。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ソフトウェア</th>
+<th class="head">バージョン</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>OS</td>
+<td>Windows7,Ubuntu Linux 11.10</td>
+</tr>
+<tr class="row-odd"><td>Java</td>
+<td>Oracle JDK 7</td>
+</tr>
+<tr class="row-even"><td>astah*</td>
+<td>6.8(Professional, UML, Community),1.1(SysML)</td>
+</tr>
+<tr class="row-odd"><td>Eclipse</td>
+<td>3.7.1</td>
+</tr>
+<tr class="row-even"><td>IntelliJ IDEA</td>
+<td>11.1</td>
+</tr>
+</tbody>
+</table>
+<p>目次:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">astah*のプラグイン機構の仕組み</a></li>
+<li class="toctree-l1"><a class="reference internal" href="devenv.html">astah*のプラグインの開発環境を構築しましょう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helloworld.html">Hello Worldプラグインを作ってみましょう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">クラスの総数を表示するプラグインを作ってみましょう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="extraview.html">拡張タブビューを作ってみましょう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installplugin.html">作成したプラグインをastah*にインストールしてみましょう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="releaseplugin.html">プラグインをリリースしましょう</a></li>
+<li class="toctree-l1"><a class="reference internal" href="apilist.html">参考サイト</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixA.html">astah* メニューID一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="appendixB.html">astah* Plug-in SDK コマンド一覧</a></li>
+<li class="toctree-l1"><a class="reference internal" href="snippets.html">astah* Plug-in 用スニペット集</a></li>
+</ul>
+</div>
+<p class="rubric">Footnotes</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="overview.html" title="astah*のプラグイン機構の仕組み"
+             >next</a> |</li>
+        <li><a href="#">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

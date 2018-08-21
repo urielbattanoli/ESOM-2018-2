@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to release a plugin &mdash; Astah Plug-in Tutorial 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Astah Plug-in Tutorial 1.1 documentation" href="index.html" />
+    <link rel="next" title="Related Links" href="apilist.html" />
+    <link rel="prev" title="Let’s install your Astah plug-in" href="installplugin.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="apilist.html" title="Related Links"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installplugin.html" title="Let’s install your Astah plug-in"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Astah Plug-in Tutorial 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installplugin.html"
+                        title="previous chapter">Let&#8217;s install your Astah plug-in</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="apilist.html"
+                        title="next chapter">Related Links</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/releaseplugin.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="how-to-release-a-plugin">
+<h1>How to release a plugin<a class="headerlink" href="#how-to-release-a-plugin" title="Permalink to this headline">¶</a></h1>
+<p>By setting &lt;properties&gt; tags named astah-version and astah-edition in pom.xml before a plugin is released, The version of the Astah by which the plugin is developped and the edition on which the plugin can run can be limitted.</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;properties&gt;</span>
+  <span class="nt">&lt;bundle.symbolicName&gt;</span>com.change_vision.astah.sample<span class="nt">&lt;/bundle.symbolicName&gt;</span>
+  <span class="nt">&lt;bundle.namespace&gt;</span>com.change_vision.astah<span class="nt">&lt;/bundle.namespace&gt;</span>
+  <span class="nt">&lt;plugin.install&gt;</span>true<span class="nt">&lt;/plugin.install&gt;</span>
+  <span class="nt">&lt;astah.version&gt;</span>6.6<span class="nt">&lt;/astah.version&gt;</span>
+  <span class="nt">&lt;astah.edition&gt;</span>all<span class="nt">&lt;/astah.edition&gt;</span>
+<span class="nt">&lt;/properties&gt;</span>
+</pre></div>
+</div>
+<p>The version of the Astah by which the plugin is developped should be set as osstat-version, otherwise the version of the Astah running the plugin cannot be limitted.
+Keys for astah-edition are listed in the table below.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Edition</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>All editions</td>
+<td>blank, all, *</td>
+</tr>
+<tr class="row-odd"><td>professional</td>
+<td>pro, professional</td>
+</tr>
+<tr class="row-even"><td>UML</td>
+<td>uml, UML</td>
+</tr>
+<tr class="row-odd"><td>community</td>
+<td>com, Community</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="apilist.html" title="Related Links"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installplugin.html" title="Let’s install your Astah plug-in"
+             >previous</a> |</li>
+        <li><a href="index.html">Astah Plug-in Tutorial 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

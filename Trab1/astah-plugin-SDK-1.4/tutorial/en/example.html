@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Let’s make a Plug-in to count number of Classes in Astah &mdash; Astah Plug-in Tutorial 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Astah Plug-in Tutorial 1.1 documentation" href="index.html" />
+    <link rel="next" title="Let’s add an extended view to Astah" href="extraview.html" />
+    <link rel="prev" title="Let’s make a sample Plug-in, “Hello World”" href="helloworld.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="extraview.html" title="Let’s add an extended view to Astah"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="helloworld.html" title="Let’s make a sample Plug-in, “Hello World”"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Astah Plug-in Tutorial 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Let&#8217;s make a Plug-in to count number of Classes in Astah</a><ul>
+<li><a class="reference internal" href="#getting-model-information">Getting model information</a></li>
+<li><a class="reference internal" href="#debugging-the-plug-in">Debugging the Plug-in</a><ul>
+<li><a class="reference internal" href="#example-of-remote-debugging-using-eclipse">Example of remote debugging using Eclipse</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="helloworld.html"
+                        title="previous chapter">Let&#8217;s make a sample Plug-in, &#8220;Hello World&#8221;</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="extraview.html"
+                        title="next chapter">Let&#8217;s add an extended view to Astah</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/example.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="let-s-make-a-plug-in-to-count-number-of-classes-in-astah">
+<h1>Let&#8217;s make a Plug-in to count number of Classes in Astah<a class="headerlink" href="#let-s-make-a-plug-in-to-count-number-of-classes-in-astah" title="Permalink to this headline">¶</a></h1>
+<p>We&#8217;ve created a simple Astah Plug-in. Now let&#8217;s make another one. This time make one to count number of Classes in Astah which can be used as one of indexes for an evaluation of the value of designs.</p>
+<p>In this sample model as the figure below, there are three classes in this model.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/structure.png"><img alt="Sample model to get the model recursively." src="_images/structure.png" style="width: 214px;" /></a>
+</div>
+<p>Now let&#8217;s make a Plug-in to count the models and let it show the number as below.</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">&quot;There are 3 classes&quot;</span>
+</pre></div>
+</div>
+<div class="section" id="getting-model-information">
+<h2>Getting model information<a class="headerlink" href="#getting-model-information" title="Permalink to this headline">¶</a></h2>
+<p>In order to get model information, let&#8217;s use Astah API. Astah API is a group of Java interfaces for reading/writing Astah which can be used to count number of classes in this case. Please refer to Astah API User guide which you can find in Astah Install folder for details about Astah API.</p>
+<p>We are going to write a code to get the root model of Astah by using ProjectAccessor and get all the classes under the root model recursively. Now let&#8217;s modify the &#8220;Hello World&#8221; Plug-in to make it show the number of Class in the menu instead.</p>
+<p>First, create CountClassAction class.</p>
+<div class="highlight-java"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * Please change this class&#39;s package to your genearated Plug-in&#39;s package.</span>
+<span class="cm"> * Plug-in&#39;s package namespace =&gt; com.example</span>
+<span class="cm"> *   com.change_vision.astah.extension.plugin =&gt; X</span>
+<span class="cm"> *   com.example                              =&gt; O</span>
+<span class="cm"> *   com.example.internal                     =&gt; O</span>
+<span class="cm"> *   learning                                 =&gt; X</span>
+<span class="cm"> */</span>
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">actions</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.swing.JOptionPane</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.AstahAPI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.exception.ProjectNotFoundException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.IClass</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.IModel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.INamedElement</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.IPackage</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.project.ProjectAccessor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.IPluginActionDelegate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.IWindow</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountClassAction</span> <span class="kd">implements</span> <span class="n">IPluginActionDelegate</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">run</span><span class="o">(</span><span class="n">IWindow</span> <span class="n">window</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnExpectedException</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+      <span class="n">AstahAPI</span> <span class="n">api</span> <span class="o">=</span> <span class="n">AstahAPI</span><span class="o">.</span><span class="na">getAstahAPI</span><span class="o">();</span>
+      <span class="n">ProjectAccessor</span> <span class="n">projectAccessor</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="na">getProjectAccessor</span><span class="o">();</span>
+      <span class="n">IModel</span> <span class="n">iCurrentProject</span> <span class="o">=</span> <span class="n">projectAccessor</span><span class="o">.</span><span class="na">getProject</span><span class="o">();</span>
+      <span class="n">List</span><span class="o">&lt;</span><span class="n">IClass</span><span class="o">&gt;</span> <span class="n">classeList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">IClass</span><span class="o">&gt;();</span>
+      <span class="n">getAllClasses</span><span class="o">(</span><span class="n">iCurrentProject</span><span class="o">,</span> <span class="n">classeList</span><span class="o">);</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span>
+          <span class="s">&quot;There are &quot;</span> <span class="o">+</span> <span class="n">classeList</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; classes.&quot;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ProjectNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Please open a project&quot;</span><span class="o">;</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span> <span class="n">message</span><span class="o">,</span>
+          <span class="s">&quot;Warning&quot;</span><span class="o">,</span> <span class="n">JOptionPane</span><span class="o">.</span><span class="na">WARNING_MESSAGE</span><span class="o">);</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">CalculateUnExpectedException</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span>
+          <span class="s">&quot;Exception occured&quot;</span><span class="o">,</span> <span class="s">&quot;Alert&quot;</span><span class="o">,</span> <span class="n">JOptionPane</span><span class="o">.</span><span class="na">ERROR_MESSAGE</span><span class="o">);</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnExpectedException</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CalculateUnExpectedException</span> <span class="kd">extends</span> <span class="n">UnExpectedException</span> <span class="o">{</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">getAllClasses</span><span class="o">(</span><span class="n">INamedElement</span> <span class="n">element</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">IClass</span><span class="o">&gt;</span> <span class="n">classList</span><span class="o">)</span>
+      <span class="kd">throws</span> <span class="n">ClassNotFoundException</span><span class="o">,</span> <span class="n">ProjectNotFoundException</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="k">instanceof</span> <span class="n">IPackage</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">for</span><span class="o">(</span><span class="n">INamedElement</span> <span class="n">ownedNamedElement</span> <span class="o">:</span> <span class="o">((</span><span class="n">IPackage</span><span class="o">)</span><span class="n">element</span><span class="o">).</span><span class="na">getOwnedElements</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">getAllClasses</span><span class="o">(</span><span class="n">ownedNamedElement</span><span class="o">,</span> <span class="n">classList</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="k">instanceof</span> <span class="n">IClass</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">classList</span><span class="o">.</span><span class="na">add</span><span class="o">((</span><span class="n">IClass</span><span class="o">)</span><span class="n">element</span><span class="o">);</span>
+      <span class="k">for</span><span class="o">(</span><span class="n">IClass</span> <span class="n">nestedClasses</span> <span class="o">:</span> <span class="o">((</span><span class="n">IClass</span><span class="o">)</span><span class="n">element</span><span class="o">).</span><span class="na">getNestedClasses</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">getAllClasses</span><span class="o">(</span><span class="n">nestedClasses</span><span class="o">,</span> <span class="n">classList</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>Now, modify the plugin.xml with this CountClassAction class.</p>
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;extension</span> <span class="na">point=</span><span class="s">&quot;com.change_vision.astah.ui.actionSets&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;actionSet</span> 
+      <span class="na">label=</span><span class="s">&quot;%action_set_label &quot;</span> 
+      <span class="na">visible=</span><span class="s">&quot;true&quot;</span>
+      <span class="na">id=</span><span class="s">&quot;com.example.actions.actionSet1&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;menu</span> 
+        <span class="na">label=</span><span class="s">&quot;%sample_menu&quot;</span> 
+        <span class="na">id=</span><span class="s">&quot;sampleMenu&quot;</span> 
+        <span class="na">path=</span><span class="s">&quot;tool/sampleMenu&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/menu&gt;</span>
+      <span class="nt">&lt;action</span>
+        <span class="na">label=</span><span class="s">&quot;%count_classes&quot;</span> 
+        <span class="na">icon=</span><span class="s">&quot;icons/sample.gif&quot;</span>
+        <span class="na">class=</span><span class="s">&quot;com.example.actions.CountClassAction&quot;</span>
+        <span class="na">tooltip=</span><span class="s">&quot;Count classes&quot;</span> 
+        <span class="na">menubarPath=</span><span class="s">&quot;tool/sampleMenu/&quot;</span>
+        <span class="na">id=</span><span class="s">&quot;com.example.actions.CountClassdAction&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/action&gt;</span>
+    <span class="nt">&lt;/actionSet&gt;</span>
+  <span class="nt">&lt;/extension&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>At last, add the label for this menu in plugin.properties</p>
+<div class="highlight-python"><div class="highlight"><pre>count_classes=Count classes(C)
+</pre></div>
+</div>
+<p>And now this new Plug-in should show number of classes in Astah from the menu.</p>
+</div>
+<div class="section" id="debugging-the-plug-in">
+<h2>Debugging the Plug-in<a class="headerlink" href="#debugging-the-plug-in" title="Permalink to this headline">¶</a></h2>
+<p>Now let&#8217;s debug and also see if it can get a nested class1 and class2 under a pacage0 recursively by running the command below.</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-debug
+</pre></div>
+</div>
+<p>This command launches Astah with the 44000 port open for remote debugging which you can connect from IDE.</p>
+<div class="section" id="example-of-remote-debugging-using-eclipse">
+<h3>Example of remote debugging using Eclipse<a class="headerlink" href="#example-of-remote-debugging-using-eclipse" title="Permalink to this headline">¶</a></h3>
+<p>If you are using Eclipse, please make the configuration as below.</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/remote-debug.png"><img alt="Remote Debug setting" src="_images/remote-debug.png" style="width: 541px;" /></a>
+</div>
+<p>Clicking [Debug] button executes the remote debugging. Please set a breakpoint in the line of codes if you like. This is all we provide regarding the remote debugging on this tutorial.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="extraview.html" title="Let’s add an extended view to Astah"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="helloworld.html" title="Let’s make a sample Plug-in, “Hello World”"
+             >previous</a> |</li>
+        <li><a href="index.html">Astah Plug-in Tutorial 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

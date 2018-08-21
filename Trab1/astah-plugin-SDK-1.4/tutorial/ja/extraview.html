@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>拡張タブビューを作ってみましょう &mdash; astah* Plug-in 開発チュートリアル 1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="astah* Plug-in 開発チュートリアル 1.2 documentation" href="index.html" />
+    <link rel="next" title="作成したプラグインをastah*にインストールしてみましょう" href="installplugin.html" />
+    <link rel="prev" title="クラスの総数を表示するプラグインを作ってみましょう" href="example.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="installplugin.html" title="作成したプラグインをastah*にインストールしてみましょう"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="example.html" title="クラスの総数を表示するプラグインを作ってみましょう"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">拡張タブビューを作ってみましょう</a><ul>
+<li><a class="reference internal" href="#id2">拡張タブビューを実装しましょう</a></li>
+<li><a class="reference internal" href="#astah">拡張タブビューをastah*に追加しましょう</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="example.html"
+                        title="previous chapter">クラスの総数を表示するプラグインを作ってみましょう</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="installplugin.html"
+                        title="next chapter">作成したプラグインをastah*にインストールしてみましょう</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/extraview.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>拡張タブビューを作ってみましょう<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>astah*プラグインには拡張タブビューがあります。これを使うと、例えばクラス情報のサマリを一覧にしてastah*上で閲覧できるプラグインを作成できます。ここでは、”Hello World”という文字列を表示する拡張タブビューを作成する方法を紹介します。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/extend-view.png"><img alt="拡張タブビューの例" src="_images/extend-view.png" style="width: 503px;" /></a>
+</div>
+<div class="section" id="id2">
+<h2>拡張タブビューを実装しましょう<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>拡張タブビューはIPluginExtraTabViewインターフェースの実装クラスとして定義します。次のソースコードは、IPluginExtraTabViewを実装したHelloWorldViewの例です。</p>
+<div class="highlight-java"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * パッケージ名は、生成したプラグインのパッケージ名よりも下に移してください。</span>
+<span class="cm"> * プラグインのパッケージ名=&gt; com.example</span>
+<span class="cm"> *   com.change_vision.astah.extension.plugin =&gt; X</span>
+<span class="cm"> *   com.example                              =&gt; O</span>
+<span class="cm"> *   com.example.internal                     =&gt; O</span>
+<span class="cm"> *   learning                                 =&gt; X</span>
+<span class="cm"> */</span>
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">internal</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.awt.BorderLayout</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.Component</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.awt.Container</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.swing.JLabel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.swing.JPanel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.swing.JScrollPane</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.AstahAPI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.project.ProjectAccessor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.project.ProjectEvent</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.project.ProjectEventListener</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.IPluginExtraTabView</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.ISelectionListener</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldView</span> <span class="kd">extends</span> <span class="n">JPanel</span>
+      <span class="kd">implements</span> <span class="n">IPluginExtraTabView</span><span class="o">,</span> <span class="n">ProjectEventListener</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="nf">HelloWorldView</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">initComponents</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">initComponents</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">setLayout</span><span class="o">(</span><span class="k">new</span> <span class="n">BorderLayout</span><span class="o">());</span>
+    <span class="n">add</span><span class="o">(</span><span class="n">createLabelPane</span><span class="o">(),</span> <span class="n">BorderLayout</span><span class="o">.</span><span class="na">CENTER</span><span class="o">);</span>
+    <span class="n">addProjectEventListener</span><span class="o">();</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">addProjectEventListener</span><span class="o">()</span> <span class="o">{</span>
+  <span class="k">try</span> <span class="o">{</span>
+    <span class="n">AstahAPI</span> <span class="n">api</span> <span class="o">=</span> <span class="n">AstahAPI</span><span class="o">.</span><span class="na">getAstahAPI</span><span class="o">();</span>
+    <span class="n">ProjectAccessor</span> <span class="n">projectAccessor</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="na">getProjectAccessor</span><span class="o">();</span>
+    <span class="n">projectAccessor</span><span class="o">.</span><span class="na">addProjectEventListener</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ClassNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">();</span>
+  <span class="o">}</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="n">Container</span> <span class="nf">createLabelPane</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">JLabel</span> <span class="n">label</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JLabel</span><span class="o">(</span><span class="s">&quot;hello world&quot;</span><span class="o">);</span>
+    <span class="n">JScrollPane</span> <span class="n">pane</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JScrollPane</span><span class="o">(</span><span class="n">label</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">pane</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">projectChanged</span><span class="o">(</span><span class="n">ProjectEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">projectClosed</span><span class="o">(</span><span class="n">ProjectEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">}</span>
+
+   <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">projectOpened</span><span class="o">(</span><span class="n">ProjectEvent</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addSelectionListener</span><span class="o">(</span><span class="n">ISelectionListener</span> <span class="n">listener</span><span class="o">)</span> <span class="o">{</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">Component</span> <span class="nf">getComponent</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getDescription</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">&quot;Show Hello World here&quot;</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTitle</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">&quot;Hello World View&quot;</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">activated</span><span class="o">()</span> <span class="o">{</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">deactivated</span><span class="o">()</span> <span class="o">{</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>getComponent()は表など拡張タブビュー上に表示されるコンテンツをastah*に返します。例では、拡張タブビュー上に”Hello World”を表示するHelloWorldViewインスタンスを返しています。拡張タブビューのタイトルはgetTitle()で定義します。</p>
+<p>ProjectEventListenerインターフェースを実装したクラスは、astah*が現在開いているモデルのオブザーバーです。クラスの追加や削除などモデルに変更があった場合、projectChangedメソッドが呼ばれます。</p>
+</div>
+<div class="section" id="astah">
+<h2>拡張タブビューをastah*に追加しましょう<a class="headerlink" href="#astah" title="Permalink to this headline">¶</a></h2>
+<p>続いてplugin.xmlに拡張タブビューを追加しましょう。</p>
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;extension</span> <span class="na">point=</span><span class="s">&quot;com.change_vision.astah.ui.view&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;view</span>
+      <span class="na">id=</span><span class="s">&quot;com.example.internal.HelloWorldView&quot;</span>
+      <span class="na">type=</span><span class="s">&quot;extraTab&quot;</span>
+      <span class="na">class=</span><span class="s">&quot;com.example.internal.HelloWorldView&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/extension&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>各タグの意味は下記のとおりです。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="11%" />
+<col width="10%" />
+<col width="56%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Tag Name</th>
+<th class="head">Attribute</th>
+<th class="head">Required</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>extension</td>
+<td></td>
+<td>○</td>
+<td>拡張ポイントを指定します｡</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td>point</td>
+<td>○</td>
+<td>com.change_vision.astah.ui.viewを指定</td>
+</tr>
+<tr class="row-even"><td>view</td>
+<td></td>
+<td>○</td>
+<td>ビューを指定します。</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td>id</td>
+<td>○</td>
+<td>ビューのIDです。</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>type</td>
+<td>○</td>
+<td>表示する場所を指定します｡</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td></td>
+<td></td>
+<td>拡張ビューの場合､extraTabを指定します。</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>class</td>
+<td>○</td>
+<td>拡張タブに表示する実装クラスを指定します｡</td>
+</tr>
+</tbody>
+</table>
+<p>これで拡張タブビューを追加できました。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="installplugin.html" title="作成したプラグインをastah*にインストールしてみましょう"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="example.html" title="クラスの総数を表示するプラグインを作ってみましょう"
+             >previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

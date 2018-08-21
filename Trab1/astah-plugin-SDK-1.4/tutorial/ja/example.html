@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>クラスの総数を表示するプラグインを作ってみましょう &mdash; astah* Plug-in 開発チュートリアル 1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="astah* Plug-in 開発チュートリアル 1.2 documentation" href="index.html" />
+    <link rel="next" title="拡張タブビューを作ってみましょう" href="extraview.html" />
+    <link rel="prev" title="Hello Worldプラグインを作ってみましょう" href="helloworld.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="extraview.html" title="拡張タブビューを作ってみましょう"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="helloworld.html" title="Hello Worldプラグインを作ってみましょう"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">クラスの総数を表示するプラグインを作ってみましょう</a><ul>
+<li><a class="reference internal" href="#id2">モデル情報を取得してみましょう</a></li>
+<li><a class="reference internal" href="#id3">デバッグしてみましょう</a><ul>
+<li><a class="reference internal" href="#eclipse">Eclipseを使ったリモートデバッグの例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="helloworld.html"
+                        title="previous chapter">Hello Worldプラグインを作ってみましょう</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="extraview.html"
+                        title="next chapter">拡張タブビューを作ってみましょう</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/example.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>クラスの総数を表示するプラグインを作ってみましょう<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>ここまでに作成した単純なプラグインをベースに、実践的なプラグインを作成してみましょう。
+設計されたモデルの品質を評価する際、指標としてクラスの総数を利用することがあります。
+Hello Worldの代わりに、astah*モデル内のクラスの総数を表示するプラグインを作成してみましょう。</p>
+<p>次のastah*モデルでは、クラスの総数は3つです。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/structure.png"><img alt="再帰的にモデルを取得するサンプルモデル" src="_images/structure.png" style="width: 214px;" /></a>
+</div>
+<p>プラグインによって追加したメニューを押下すると､</p>
+<div class="highlight-python"><div class="highlight"><pre>「There are 3 classes」
+</pre></div>
+</div>
+<p>と表示されるようにしてみましょう。</p>
+<div class="section" id="id2">
+<h2>モデル情報を取得してみましょう<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>astah*のモデル情報を取得するために、astah* APIを活用してみましょう。astah* APIとは、astah*のモデルデータを活用するアプリケーションを開発するためのJavaインターフェース群です。詳細については、本体に付属するastah* API利用ガイドを参照してください。</p>
+<p>これから書くコードでは、ProjectAccessorから現在開いているastah*モデルのルートモデルを取得し、再帰的にすべてのクラスを取得します。それではクラスの総数をメッセージダイアログに表示するようにHelloWorldプラグインを修正してみましょう。</p>
+<p>まず、CountClassActionクラスを作成しましょう。</p>
+<div class="highlight-java"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * パッケージ名は、生成したプラグインのパッケージ名よりも下に移してください。</span>
+<span class="cm"> * プラグインのパッケージ名=&gt; com.example</span>
+<span class="cm"> *   com.change_vision.astah.extension.plugin =&gt; X</span>
+<span class="cm"> *   com.example                              =&gt; O</span>
+<span class="cm"> *   com.example.internal                     =&gt; O</span>
+<span class="cm"> *   learning                                 =&gt; X</span>
+<span class="cm"> */</span>
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">actions</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.swing.JOptionPane</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.AstahAPI</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.exception.ProjectNotFoundException</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.IClass</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.IModel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.INamedElement</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.model.IPackage</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.project.ProjectAccessor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.IPluginActionDelegate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.IWindow</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CountClassAction</span> <span class="kd">implements</span> <span class="n">IPluginActionDelegate</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">run</span><span class="o">(</span><span class="n">IWindow</span> <span class="n">window</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnExpectedException</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+      <span class="n">AstahAPI</span> <span class="n">api</span> <span class="o">=</span> <span class="n">AstahAPI</span><span class="o">.</span><span class="na">getAstahAPI</span><span class="o">();</span>
+      <span class="n">ProjectAccessor</span> <span class="n">projectAccessor</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="na">getProjectAccessor</span><span class="o">();</span>
+      <span class="n">IModel</span> <span class="n">iCurrentProject</span> <span class="o">=</span> <span class="n">projectAccessor</span><span class="o">.</span><span class="na">getProject</span><span class="o">();</span>
+      <span class="n">List</span><span class="o">&lt;</span><span class="n">IClass</span><span class="o">&gt;</span> <span class="n">classeList</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">IClass</span><span class="o">&gt;();</span>
+      <span class="n">getAllClasses</span><span class="o">(</span><span class="n">iCurrentProject</span><span class="o">,</span> <span class="n">classeList</span><span class="o">);</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span>
+          <span class="s">&quot;There are &quot;</span> <span class="o">+</span> <span class="n">classeList</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">+</span> <span class="s">&quot; classes.&quot;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">ProjectNotFoundException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="s">&quot;Please open a project&quot;</span><span class="o">;</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span> <span class="n">message</span><span class="o">,</span>
+          <span class="s">&quot;Warning&quot;</span><span class="o">,</span> <span class="n">JOptionPane</span><span class="o">.</span><span class="na">WARNING_MESSAGE</span><span class="o">);</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">CalculateUnExpectedException</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span>
+          <span class="s">&quot;Exception occured&quot;</span><span class="o">,</span> <span class="s">&quot;Alert&quot;</span><span class="o">,</span> <span class="n">JOptionPane</span><span class="o">.</span><span class="na">ERROR_MESSAGE</span><span class="o">);</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnExpectedException</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kd">class</span> <span class="nc">CalculateUnExpectedException</span> <span class="kd">extends</span> <span class="n">UnExpectedException</span> <span class="o">{</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kt">void</span> <span class="nf">getAllClasses</span><span class="o">(</span><span class="n">INamedElement</span> <span class="n">element</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">IClass</span><span class="o">&gt;</span> <span class="n">classList</span><span class="o">)</span>
+      <span class="kd">throws</span> <span class="n">ClassNotFoundException</span><span class="o">,</span> <span class="n">ProjectNotFoundException</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="k">instanceof</span> <span class="n">IPackage</span><span class="o">)</span> <span class="o">{</span>
+      <span class="k">for</span><span class="o">(</span><span class="n">INamedElement</span> <span class="n">ownedNamedElement</span> <span class="o">:</span> <span class="o">((</span><span class="n">IPackage</span><span class="o">)</span><span class="n">element</span><span class="o">).</span><span class="na">getOwnedElements</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">getAllClasses</span><span class="o">(</span><span class="n">ownedNamedElement</span><span class="o">,</span> <span class="n">classList</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="k">instanceof</span> <span class="n">IClass</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">classList</span><span class="o">.</span><span class="na">add</span><span class="o">((</span><span class="n">IClass</span><span class="o">)</span><span class="n">element</span><span class="o">);</span>
+      <span class="k">for</span><span class="o">(</span><span class="n">IClass</span> <span class="n">nestedClasses</span> <span class="o">:</span> <span class="o">((</span><span class="n">IClass</span><span class="o">)</span><span class="n">element</span><span class="o">).</span><span class="na">getNestedClasses</span><span class="o">())</span> <span class="o">{</span>
+        <span class="n">getAllClasses</span><span class="o">(</span><span class="n">nestedClasses</span><span class="o">,</span> <span class="n">classList</span><span class="o">);</span>
+      <span class="o">}</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>次に､plugin.xmlファイルにCountClassActionクラスを使ったメニューを追加しましょう。</p>
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;extension</span> <span class="na">point=</span><span class="s">&quot;com.change_vision.astah.ui.actionSets&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;actionSet</span> 
+      <span class="na">label=</span><span class="s">&quot;%action_set_label &quot;</span> 
+      <span class="na">visible=</span><span class="s">&quot;true&quot;</span>
+      <span class="na">id=</span><span class="s">&quot;com.example.actions.actionSet1&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;menu</span> 
+        <span class="na">label=</span><span class="s">&quot;%sample_menu&quot;</span> 
+        <span class="na">id=</span><span class="s">&quot;sampleMenu&quot;</span> 
+        <span class="na">path=</span><span class="s">&quot;tool/sampleMenu&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/menu&gt;</span>
+      <span class="nt">&lt;action</span>
+        <span class="na">label=</span><span class="s">&quot;%count_classes&quot;</span> 
+        <span class="na">icon=</span><span class="s">&quot;icons/sample.gif&quot;</span>
+        <span class="na">class=</span><span class="s">&quot;com.example.actions.CountClassAction&quot;</span>
+        <span class="na">tooltip=</span><span class="s">&quot;Count classes&quot;</span> 
+        <span class="na">menubarPath=</span><span class="s">&quot;tool/sampleMenu/&quot;</span>
+        <span class="na">id=</span><span class="s">&quot;com.example.actions.CountClassdAction&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/action&gt;</span>
+    <span class="nt">&lt;/actionSet&gt;</span>
+  <span class="nt">&lt;/extension&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>最後に､plugin.propertiesに追加したメニューのラベルを追加します｡</p>
+<div class="highlight-python"><div class="highlight"><pre>count_classes=Count classes(C)
+</pre></div>
+</div>
+<p>これで、クラスの数をカウントした結果を表示できます。</p>
+</div>
+<div class="section" id="id3">
+<h2>デバッグしてみましょう<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>ネストクラスのクラス1とパッケージ0以下のクラス2を、再帰的に取得できるかデバッグしながら、確認してみましょう。デバッグをするには次のコマンドを実行します。</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-debug
+</pre></div>
+</div>
+<p>すると、44000ポートがリモートデバッグ用のポートとして開かれた状態で起動します。IDEなどからこのポートに接続し、リモートデバッグします。</p>
+<div class="section" id="eclipse">
+<h3>Eclipseを使ったリモートデバッグの例<a class="headerlink" href="#eclipse" title="Permalink to this headline">¶</a></h3>
+<p>Eclipseでは下図のように設定します。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/remote-debug.png"><img alt="リモートデバッグ用設定" src="_images/remote-debug.png" style="width: 541px;" /></a>
+</div>
+<p>設定後､Debugボタンを押すとリモートデバッグが始まります。適当な場所にブレークポイントを設定して実行すると、デバッグが行われます。なお、リモートデバッグの詳細については、本書で扱う範囲外のため割愛します。</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="extraview.html" title="拡張タブビューを作ってみましょう"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="helloworld.html" title="Hello Worldプラグインを作ってみましょう"
+             >previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

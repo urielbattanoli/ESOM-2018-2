@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>astah*のプラグインの開発環境を構築しましょう &mdash; astah* Plug-in 開発チュートリアル 1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="astah* Plug-in 開発チュートリアル 1.2 documentation" href="index.html" />
+    <link rel="next" title="Hello Worldプラグインを作ってみましょう" href="helloworld.html" />
+    <link rel="prev" title="astah*のプラグイン機構の仕組み" href="overview.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="helloworld.html" title="Hello Worldプラグインを作ってみましょう"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="astah*のプラグイン機構の仕組み"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">astah*のプラグイン機構の仕組み</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="helloworld.html"
+                        title="next chapter">Hello Worldプラグインを作ってみましょう</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/devenv.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="astah">
+<h1>astah*のプラグインの開発環境を構築しましょう<a class="headerlink" href="#astah" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://astah.change-vision.com/files/plugin/astah-plugin-sdk-latest.zip">astah*のプラグイン開発環境として、astah* Plug-in SDKを配布しています。</a> このSDKはMaven 3をベースにカスタマイズしたものです。</p>
+<p>ここではastah*のプラグインの開発環境を構築しましょう。 <a class="reference external" href="http://astah.change-vision.com/ja/product/astah-requirement.html">なお、astah*プラグイン開発環境のシステム要件は、astah*に準じます。</a></p>
+<p>まず配布されているastah* Plug-in SDKを適当なフォルダに展開します。次に以下に挙げる環境変数を設定します。</p>
+<blockquote>
+<div><ul>
+<li><p class="first">環境変数「ASDK_HOME」を追加し、展開したフォルダを指定する。</p>
+<div class="highlight-python"><div class="highlight"><pre>例: set ASDK_HOME=C:\dev\astah-plugin-SDK-1.0
+</pre></div>
+</div>
+</li>
+<li><p class="first">環境変数「PATH」にastah* Plug-in SDKの実行ファイルがある
+「%ASDK_HOME%\bin」フォルダを追加する。
+(Linux/Mac OS Xでは「$ASDK_HOME/bin」)</p>
+<div class="highlight-python"><div class="highlight"><pre>例: set PATH=%ASDK_HOME%\bin;%PATH%
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<p>環境変数「JAVA_HOME」が指定されていない場合は、<a class="reference external" href="http://astah.change-vision.com/ja/product/astah-requirement.html">システム要件</a> を満たすJavaをインストールしてから指定します。</p>
+<blockquote>
+<div><ul>
+<li><p class="first">環境変数「JAVA_HOME」を追加し、展開したフォルダを指定する。</p>
+<div class="highlight-python"><div class="highlight"><pre>例: set JAVA_HOME=C:\Program Files (x86)\Java\jdk1.7.0_65
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<p>以上の作業が終了したら、次のコマンドを入力してみましょう。</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; asdk
+</pre></div>
+</div>
+<p>以下のような出力が得られれば､astah* Plug-in SDKのインストールは完了です。</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah* Plug-in SDK version: 1.0
+</pre></div>
+</div>
+<p>次にastah* Plug-in SDKからastah*が起動できることを確認するために、下記のコマンドを入力してみましょう｡</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-launch
+</pre></div>
+</div>
+<p>うまく行くと、お使いのastah*が起動されます。</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">astah*を起動できない場合は、下記の設定を試してください。
+%ASDK_HOME%\conf\settings.xmlの中の&lt;profile&gt;タグに囲まれた部分を設定します。お使いの「エディション」と「OS」に対応する
+ID「astah-&lt;エディション&gt;-&lt;os&gt;」のプロファイルを適切なパスに修正してください。</p>
+</div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;profile&gt;</span>
+  <span class="nt">&lt;id&gt;</span>astah-professional-windows<span class="nt">&lt;/id&gt;</span> <span class="c">&lt;!-- このIDの[professional]はastahのエディション、[windows]はosです --&gt;</span>
+  <span class="nt">&lt;activation&gt;</span>
+    <span class="nt">&lt;activeByDefault&gt;</span>false<span class="nt">&lt;/activeByDefault&gt;</span>
+    <span class="nt">&lt;file&gt;</span>
+      <span class="nt">&lt;exists&gt;</span>C:/Program Files/astah-professional/astah-pro.jar<span class="nt">&lt;/exists&gt;</span>  <span class="c">&lt;!--- ココ --&gt;</span>
+    <span class="nt">&lt;/file&gt;</span>
+  <span class="nt">&lt;/activation&gt;</span>
+  <span class="nt">&lt;properties&gt;</span>
+    <span class="nt">&lt;astahPath&gt;</span>C:/Program Files/astah-professional<span class="nt">&lt;/astahPath&gt;</span>  <span class="c">&lt;!--ココ --&gt;</span>
+    <span class="nt">&lt;astahEdition&gt;</span>professional<span class="nt">&lt;/astahEdition&gt;</span>
+  <span class="nt">&lt;/properties&gt;</span>
+   <span class="nt">&lt;pluginRepositories&gt;</span>
+     <span class="nt">&lt;pluginRepository&gt;</span>
+       <span class="nt">&lt;id&gt;</span>local_astah_repository<span class="nt">&lt;/id&gt;</span>
+       <span class="nt">&lt;name&gt;</span>Local Astah* Plugin Repository<span class="nt">&lt;/name&gt;</span>
+       <span class="nt">&lt;url&gt;</span>file://${env.M2_HOME}/repository/<span class="nt">&lt;/url&gt;</span>
+       <span class="nt">&lt;layout&gt;</span>default<span class="nt">&lt;/layout&gt;</span>
+       <span class="nt">&lt;snapshots&gt;</span>
+         <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+       <span class="nt">&lt;/snapshots&gt;</span>
+       <span class="nt">&lt;releases&gt;</span>
+         <span class="nt">&lt;updatePolicy&gt;</span>never<span class="nt">&lt;/updatePolicy&gt;</span>
+       <span class="nt">&lt;/releases&gt;</span>
+     <span class="nt">&lt;/pluginRepository&gt;</span>
+   <span class="nt">&lt;/pluginRepositories&gt;</span>
+ <span class="nt">&lt;/profile&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">astah* Plug-in SDKは､内部でMaven 3を利用しています。</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="helloworld.html" title="Hello Worldプラグインを作ってみましょう"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="astah*のプラグイン機構の仕組み"
+             >previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

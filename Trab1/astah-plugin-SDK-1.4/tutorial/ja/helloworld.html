@@ -1,0 +1,564 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Hello Worldプラグインを作ってみましょう &mdash; astah* Plug-in 開発チュートリアル 1.2 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="astah* Plug-in 開発チュートリアル 1.2 documentation" href="index.html" />
+    <link rel="next" title="クラスの総数を表示するプラグインを作ってみましょう" href="example.html" />
+    <link rel="prev" title="astah*のプラグインの開発環境を構築しましょう" href="devenv.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="example.html" title="クラスの総数を表示するプラグインを作ってみましょう"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="devenv.html" title="astah*のプラグインの開発環境を構築しましょう"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Hello Worldプラグインを作ってみましょう</a><ul>
+<li><a class="reference internal" href="#id1">プラグインプロジェクトの新規作成</a></li>
+<li><a class="reference internal" href="#astah">開発中のプラグインを読み込んだ状態でastah*を起動しましょう</a></li>
+<li><a class="reference internal" href="#ide">IDEにプラグインプロジェクトをインポートしましょう</a><ul>
+<li><a class="reference internal" href="#eclipse">Eclipse</a><ul>
+<li><a class="reference internal" href="#eclipsem2e">Eclipseとm2eのインストール</a></li>
+<li><a class="reference internal" href="#astah-plug-in-sdkeclipsemaven-home">astah* Plug-in SDKをEclipseのMAVEN_HOMEとして設定する</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#intellij-idea">IntelliJ IDEA</a><ul>
+<li><a class="reference internal" href="#id5">生成したプラグインプロジェクトをIntelliJ IDEAにインポートする</a></li>
+<li><a class="reference internal" href="#astah-plug-in-sdkintellij-ideamaven-home">astah* Plug-in SDKをIntelliJ IDEAのMAVEN_HOMEとして設定しましょう</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">メッセージを表示するメニューを作成しましょう</a></li>
+<li><a class="reference internal" href="#id7">ラベルの国際化対応をしましょう</a></li>
+<li><a class="reference internal" href="#id8">アクションを作成しましょう</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="devenv.html"
+                        title="previous chapter">astah*のプラグインの開発環境を構築しましょう</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="example.html"
+                        title="next chapter">クラスの総数を表示するプラグインを作ってみましょう</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/helloworld.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="hello-world">
+<h1>Hello Worldプラグインを作ってみましょう<a class="headerlink" href="#hello-world" title="Permalink to this headline">¶</a></h1>
+<p>本章ではメニューの追加を例に、astah*のプラグイン開発を紹介します。</p>
+<div class="section" id="id1">
+<h2>プラグインプロジェクトの新規作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>まず、プラグインプロジェクトを新規作成します。プラグインプロジェクトを作成したいディレクトリへ移動し、次のコマンドを入力しましょう。</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-generate-project
+</pre></div>
+</div>
+<p>astah* SysMLのプラグインプロジェクトを新規作成するには、次のコマンドを入力しましょう。</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-sysml-generate-project
+</pre></div>
+</div>
+<p>続いてgroupId、artifactId、version、パッケージを指定してください。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="17%" />
+<col width="83%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Parameter</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>groupId</td>
+<td>プロジェクトの識別名を指定します。一般的には、プロジェクトのルートパッケージ名を指定します。</td>
+</tr>
+<tr class="row-odd"><td>artifactId</td>
+<td>プロジェクト名を指定します。生成されるフォルダ名やjarファイルの名前に使用されます。</td>
+</tr>
+<tr class="row-even"><td>version</td>
+<td>プロジェクトのバージョンを指定します。</td>
+</tr>
+<tr class="row-odd"><td>package</td>
+<td>プロジェクトのパッケージ名を指定します。groupIdと同じか、下層のパッケージ名を指定してください。</td>
+</tr>
+</tbody>
+</table>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/astah-generate-project.png"><img alt="astah*プラグインプロジェクトの生成" src="_images/astah-generate-project.png" style="width: 640px;" /></a>
+</div>
+<p>エラーがなければ、指定したartifact idと同名のフォルダがプラグインプロジェクトとして作成されます。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/astah-generate-project-success.png"><img alt="astah*プラグインプロジェクトの生成の成功" src="_images/astah-generate-project-success.png" style="width: 640px;" /></a>
+</div>
+<p>生成されたプロジェクトの内容を簡単に説明します。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">File Name</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>pom.xml</td>
+<td>プロジェクトのビルド情報や、ライブラリの依存情報、Mavenプラグインの設定などを記述します。</td>
+</tr>
+<tr class="row-odd"><td>Activator.java</td>
+<td>プラグインがロードされるときに実行されます。
+プラグインの初期化処理や終了処理などを定義します。</td>
+</tr>
+<tr class="row-even"><td>plugin.xml</td>
+<td>メニューなどの拡張ポイントを設定します。
+この例では、astah*の拡張ポイントとしてメニュー定義を記述します。
+記述方法は、後ほどプラグインの作り方で説明します。</td>
+</tr>
+<tr class="row-odd"><td>plugin.properties</td>
+<td>astah*プラグインで使用するラベルなどの多言語化のための仕組みです。
+デフォルトではplugin.propertiesの値が使用され、日本語のラベルを提供する場合はplugin_jp.propertiesに記述される値が使用されます。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="astah">
+<h2>開発中のプラグインを読み込んだ状態でastah*を起動しましょう<a class="headerlink" href="#astah" title="Permalink to this headline">¶</a></h2>
+<p>開発中のプラグインを読み込むには、まずビルドしなければなりません。そのために、作成したプラグインプロジェクトのディレクトリへ移動し､次のコマンドを実行してみましょう。</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-build
+</pre></div>
+</div>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/astah-build-success.png"><img alt="astah*プラグインプロジェクトのビルドの成功" src="_images/astah-build-success.png" style="width: 640px;" /></a>
+</div>
+<p>ビルドが成功すると、targetフォルダが作成され､その中に[artifact id]-[version].jar
+というファイルが作成されています｡このファイルがプラグインファイルです｡続いて、このプラグインファイルを読み込んでastah*を起動します。次のコマンドを実行してみましょう。</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-launch
+</pre></div>
+</div>
+<p>すると、プラグインが読み込まれた状態でastah*が起動します。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/astah-launch-success.png"><img alt="astah*プラグインプロジェクトを組み込んでastahの起動に成功" src="_images/astah-launch-success.png" style="width: 571px;" /></a>
+</div>
+<p>[ヘルプ]-[プラグイン一覧]メニューを見ると､次のようにテンプレートのプラグインが
+読み込まれていることを確認できます。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/plugin-list.png"><img alt="プラグイン一覧" src="_images/plugin-list.png" style="width: 571px;" /></a>
+</div>
+<p>また、[ツール]メニューの下部にメニューが追加されています。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/added_menu.png"><img alt="追加されたメニュー" src="_images/added_menu.png" style="width: 464px;" /></a>
+</div>
+</div>
+<div class="section" id="ide">
+<h2>IDEにプラグインプロジェクトをインポートしましょう<a class="headerlink" href="#ide" title="Permalink to this headline">¶</a></h2>
+<p>astah* Plug-in SDKはMavenベースのツールです。しかし、実際のプラグイン開発では、astah* Plug-in SDKのみで開発を進めるよりも、Eclipse <a class="footnote-reference" href="#id9" id="id2">[1]</a> やIntelliJ IDEA <a class="footnote-reference" href="#id10" id="id3">[2]</a> など、IDEと連携して開発する場合がほとんどでしょう。</p>
+<p>ここでは、EclipseとIntelliJへのプラグインプロジェクトのインポート方法を解説します。お使いのIDEにインポートしてみましょう。</p>
+<div class="section" id="eclipse">
+<h3>Eclipse<a class="headerlink" href="#eclipse" title="Permalink to this headline">¶</a></h3>
+<p>EclipseとMavenを連携させるm2eをインストールしておくと、Eclipse上からMavenのコマンドを実行できます｡</p>
+<div class="section" id="eclipsem2e">
+<h4>Eclipseとm2eのインストール<a class="headerlink" href="#eclipsem2e" title="Permalink to this headline">¶</a></h4>
+<p>まず、Eclipseとm2eをインストールします。 <a class="reference external" href="http://eclipse.org/downloads/">Eclipseのサイト</a> より、</p>
+<div class="highlight-python"><div class="highlight"><pre>Eclipse IDE for Java Developers
+</pre></div>
+</div>
+<p>をダウンロードしてください。このパッケージにはm2eが同梱されています。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Eclipseはパッケージを解凍するだけでインストールでき、既存の開発環境に影響を与えません。
+本チュートリアルの実施にはこちらのパッケージをお勧めします。
+もちろん既存環境にm2eをインストールしてastah*プラグインを開発することもできます。
+既存環境へのインストールは`m2eのサイト&lt;<a class="reference external" href="http://eclipse.org/m2e/">http://eclipse.org/m2e/</a>&gt;`_を参考にしてください。</p>
+</div>
+</div>
+<div class="section" id="astah-plug-in-sdkeclipsemaven-home">
+<h4>astah* Plug-in SDKをEclipseのMAVEN_HOMEとして設定する<a class="headerlink" href="#astah-plug-in-sdkeclipsemaven-home" title="Permalink to this headline">¶</a></h4>
+<p>Eclipseを起動し、ワークスペースを選択後、astah* Plug-in SDKをMAVEN_HOMEに設定します。</p>
+<p>[Window]-[Preferences]を開き､[Maven]-[Installations]を選択します。下図のようにInstallationsに、astah* Plug-in SDKのインストールフォルダ(ASDK_HOME)を追加してください。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/Eclipse_settings.png"><img alt="Eclipse設定ページ" src="_images/Eclipse_settings.png" style="width: 573px;" /></a>
+</div>
+<p>これでEclipse上に読み込む準備ができました。Mavenのプロジェクトとしてインポートしてください。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">インストール中、Connectorのインストールを勧める画面が表示される事があります。
+このConnectorは、astah*プラグイン開発に必要なものなので、インストールしてください。</p>
+</div>
+</div>
+</div>
+<div class="section" id="intellij-idea">
+<h3>IntelliJ IDEA<a class="headerlink" href="#intellij-idea" title="Permalink to this headline">¶</a></h3>
+<p>IntelliJ IDEAには標準でMavenとの連携機能が組み込まれています｡ <a class="reference external" href="http://www.jetbrains.com/idea/">IntelliJのサイト</a> より、ダウンロードしてください。</p>
+<p>初めて起動した時にはプロジェクトの新規作成ウィザードが立ち上がります。既にお使いの場合は、「astah* Plug-in SDKをIntelliJ IDEAのMAVEN_HOMEとして設定する」を行ってから、プロジェクトをインポートしてください｡</p>
+<div class="section" id="id5">
+<h4>生成したプラグインプロジェクトをIntelliJ IDEAにインポートする<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>生成したプラグインプロジェクトをインポートしましょう。通常の手順と同様のため、割愛します。不明点はIntelliJのヘルプをご参照ください｡</p>
+</div>
+<div class="section" id="astah-plug-in-sdkintellij-ideamaven-home">
+<h4>astah* Plug-in SDKをIntelliJ IDEAのMAVEN_HOMEとして設定しましょう<a class="headerlink" href="#astah-plug-in-sdkintellij-ideamaven-home" title="Permalink to this headline">¶</a></h4>
+<p>astah* Plug-in SDKをIntelliJ IDEAのMAVEN_HOMEとして設定しましょう｡</p>
+<p>IntelliJを起動後、[File]-[Settings]を開き､[Maven]を選択します｡下図のように、Maven home directoryのOverrideにチェックし、astah* Plug-in SDKのインストールフォルダ(ASDK_HOME)を指定してください。</p>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/IntelliJ_settings.png"><img alt="IntelliJ IDEA設定ページ" src="_images/IntelliJ_settings.png" style="width: 573px;" /></a>
+</div>
+<p>これでクラスパスが設定されます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>メッセージを表示するメニューを作成しましょう<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="figure">
+<a class="reference internal image-reference" href="_images/added_new_menu.png"><img alt="プラグインメニューの追加例" src="_images/added_new_menu.png" style="width: 378px;" /></a>
+</div>
+<p>astah*のプラグインを作成するには、astah*が提供する拡張ポイントの内容を&lt;extension&gt;タグのpoint属性でplugin.xmlに記述する必要があります。現時点で提供している拡張ポイントは以下の2つです。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Extension Point Name</th>
+<th class="head">Descrption</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>com.change_vision.astah.ui.actionSets</td>
+<td>astah*のメニューに独自メニューを追加</td>
+</tr>
+<tr class="row-odd"><td>com.change_vision.astah.ui.view</td>
+<td>astah*の拡張ビューに独自タブを追加</td>
+</tr>
+</tbody>
+</table>
+<p>これから追加するのは、メニューです。下記はメニューを追加するplugin.xmlの例です。</p>
+<div class="highlight-xml"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;extension</span> <span class="na">point=</span><span class="s">&quot;com.change_vision.astah.ui.actionSets&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;actionSet</span>
+      <span class="na">label=</span><span class="s">&quot;%action_set_label&quot;</span>
+      <span class="na">visible=</span><span class="s">&quot;true&quot;</span>
+      <span class="na">id=</span><span class="s">&quot;com.example.helloworld.actionSet&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;menu</span>
+        <span class="na">id=</span><span class="s">&quot;helloworld&quot;</span>
+        <span class="na">label=</span><span class="s">&quot;%menu_group&quot;</span>
+        <span class="na">path=</span><span class="s">&quot;tool/helloworld&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/menu&gt;</span>
+      <span class="nt">&lt;action</span>
+        <span class="na">label=</span><span class="s">&quot;%menu_label&quot;</span>
+        <span class="na">icon=</span><span class="s">&quot;icons/sample.gif&quot;</span>
+        <span class="na">class=</span><span class="s">&quot;com.example.actions.HelloWorldAction&quot;</span>
+        <span class="na">tooltip=</span><span class="s">&quot;%menu_tooltip&quot;</span>
+        <span class="na">menubarPath=</span><span class="s">&quot;tool/helloworld/&quot;</span>
+        <span class="na">id=</span><span class="s">&quot;com.example.actions.HelloWorldAction&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;/action&gt;</span>
+    <span class="nt">&lt;/actionSet&gt;</span>
+  <span class="nt">&lt;/extension&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</td></tr></table></div>
+<p>この例では&lt;menu&gt;タグを追加し 、[ツール]メニューに[サンプルメニュー]を追加しています。&lt;action&gt;タグでは、[サンプルメニュー]にHello Worldプラグインのメニューを追加しています。</p>
+<p>メニューの追加位置は、&lt;menu&gt;タグのpath属性と、&lt;action&gt;タグのmenubarPath属性で指定します。toolは[ツール]メニューのidで、&lt;menu&gt;タグのpath属性と、&lt;action&gt;タグのmenubarPath属性には各メニューのidを記述します。&lt;menu&gt;の中にpath属性とmenubarPath属性は、各メニューのidは <a class="reference internal" href="appendixA.html"><em>astah* メニューID一覧</em></a> を参照してください。&lt;actionSet&gt;タグは各&lt;action&gt;タグをグループ化します。&lt;action&gt;タグのclass属性で、メニューが押されたときに呼ばれるアクションを定義します。</p>
+<p>まとめると下記のようになります。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="12%" />
+<col width="9%" />
+<col width="59%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Tag Name</th>
+<th class="head">Attribute</th>
+<th class="head">Required</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>plugin</td>
+<td></td>
+<td>○</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td>extension</td>
+<td></td>
+<td>○</td>
+<td>拡張ポイントを指定します｡</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>point</td>
+<td>○</td>
+<td>com.change_vision.astah.ui.actionSetsを指定</td>
+</tr>
+<tr class="row-odd"><td>actionSet</td>
+<td></td>
+<td>○</td>
+<td>メニューバーにメニューを追加するグループを指定します。</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>label</td>
+<td></td>
+<td>(予約属性)</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td>visible</td>
+<td></td>
+<td>(予約属性)</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>id</td>
+<td></td>
+<td>メニューグループのIDを指定します｡</td>
+</tr>
+<tr class="row-odd"><td>menu</td>
+<td></td>
+<td></td>
+<td>グループメニューを追加します。</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>label</td>
+<td>○</td>
+<td>グループメニューのラベルを指定します。</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td>id</td>
+<td>○</td>
+<td>グループメニューのIDを指定します｡</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>path</td>
+<td>○</td>
+<td>表示したい位置を指定します｡</td>
+</tr>
+<tr class="row-odd"><td>action</td>
+<td></td>
+<td></td>
+<td>メニューを追加します｡</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>label</td>
+<td>○</td>
+<td>メニューのラベルを指定します｡</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td>icon</td>
+<td></td>
+<td>(予約属性)</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>class</td>
+<td>○</td>
+<td>押下した時のクラスを指定します｡</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td>tooltip</td>
+<td></td>
+<td>(予約属性)</td>
+</tr>
+<tr class="row-even"><td></td>
+<td>menubarPath</td>
+<td>○</td>
+<td>表示したい位置を指定します｡</td>
+</tr>
+<tr class="row-odd"><td></td>
+<td>id</td>
+<td>○</td>
+<td>メニューのIDを指定します｡</td>
+</tr>
+</tbody>
+</table>
+<p>アクションの作成方法は後ほど説明します。</p>
+</div>
+<div class="section" id="id7">
+<h2>ラベルの国際化対応をしましょう<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>&lt;action&gt;タグのlabel属性には”%menu_label”と記述されています。これは、ラベルの表示を国際化するための記法です。&#8221;menu_label&#8221;という文字列はキー名です。ラベルの内容は、plugin.propertiesとplugin_ja.propertiesに記述します。</p>
+<p>plugin.properties:</p>
+<div class="highlight-python"><div class="highlight"><pre>menu_label=&amp;Hello World
+</pre></div>
+</div>
+<p>plugin_ja.properties:</p>
+<div class="highlight-python"><div class="highlight"><pre>menu_label=こんにちは、ワールド(&amp;H)
+</pre></div>
+</div>
+<p>日本語環境であればplugin_ja.propertiesから、&#8221;こんにちは、ワールド&#8221;という文字列がロードされます。それ以外の環境ではplugin.propertiesから&#8221;Hello World&#8221;という文字列がロードされます。</p>
+</div>
+<div class="section" id="id8">
+<h2>アクションを作成しましょう<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>メニューバーにメニューを追加できました。これから&#8221;Hello World&#8221;のメッセージを表示するアクションを作成します。アクションはIPluginActionDelegateインターフェースを実装したクラスで定義します。</p>
+<div class="highlight-java"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26</pre></div></td><td class="code"><div class="highlight"><pre><span class="cm">/*</span>
+<span class="cm"> * パッケージ名は、生成したプラグインのパッケージ名よりも下に移してください。</span>
+<span class="cm"> * プラグインのパッケージ名=&gt; com.example</span>
+<span class="cm"> *   com.change_vision.astah.extension.plugin =&gt; X</span>
+<span class="cm"> *   com.example                              =&gt; O</span>
+<span class="cm"> *   com.example.internal                     =&gt; O</span>
+<span class="cm"> *   learning                                 =&gt; X</span>
+<span class="cm"> */</span>
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">example</span><span class="o">.</span><span class="na">actions</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.swing.JOptionPane</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.IPluginActionDelegate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.change_vision.jude.api.inf.ui.IWindow</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloWorldAction</span> <span class="kd">implements</span> <span class="n">IPluginActionDelegate</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="n">Object</span> <span class="nf">run</span><span class="o">(</span><span class="n">IWindow</span> <span class="n">window</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">UnExpectedException</span> <span class="o">{</span>
+    <span class="k">try</span> <span class="o">{</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span> <span class="s">&quot;Hello World&quot;</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+      <span class="n">JOptionPane</span><span class="o">.</span><span class="na">showMessageDialog</span><span class="o">(</span><span class="n">window</span><span class="o">.</span><span class="na">getParent</span><span class="o">(),</span>
+          <span class="s">&quot;Exception occured&quot;</span><span class="o">,</span> <span class="s">&quot;Alert&quot;</span><span class="o">,</span> <span class="n">JOptionPane</span><span class="o">.</span><span class="na">ERROR_MESSAGE</span><span class="o">);</span>
+      <span class="k">throw</span> <span class="k">new</span> <span class="nf">UnExpectedException</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</td></tr></table></div>
+<p>IPluginActionDelegateインターフェースのrun()メソッドは、対応するastah*のメニューが押されたときに呼び出されます。例では、[Hello World]メニューが押されたときに、&#8221;Hello World&#8221;という文字列が書かれたダイアログを表示しています。実行中に発生するエラーはIPluginActionDelegateインターフェースの内部クラスUnExpectedExcetpionとして扱っています。</p>
+<p class="rubric">Footnotes</p>
+<table class="docutils footnote" frame="void" id="id9" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td><a class="reference external" href="http://eclipse.org/">http://eclipse.org/</a></td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id10" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td><a class="reference external" href="http://www.jetbrains.com/idea/">http://www.jetbrains.com/idea/</a></td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="example.html" title="クラスの総数を表示するプラグインを作ってみましょう"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="devenv.html" title="astah*のプラグインの開発環境を構築しましょう"
+             >previous</a> |</li>
+        <li><a href="index.html">astah* Plug-in 開発チュートリアル 1.2 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

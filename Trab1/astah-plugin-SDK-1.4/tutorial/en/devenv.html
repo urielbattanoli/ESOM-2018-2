@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Let’s set up the development environment for Astah Plug-ins &mdash; Astah Plug-in Tutorial 1.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/sphinxdoc.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="top" title="Astah Plug-in Tutorial 1.1 documentation" href="index.html" />
+    <link rel="next" title="Let’s make a sample Plug-in, “Hello World”" href="helloworld.html" />
+    <link rel="prev" title="Astah Plug-in architecture" href="overview.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="helloworld.html" title="Let’s make a sample Plug-in, “Hello World”"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Astah Plug-in architecture"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Astah Plug-in Tutorial 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">Astah Plug-in architecture</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="helloworld.html"
+                        title="next chapter">Let&#8217;s make a sample Plug-in, &#8220;Hello World&#8221;</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/devenv.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="let-s-set-up-the-development-environment-for-astah-plug-ins">
+<h1>Let&#8217;s set up the development environment for Astah Plug-ins<a class="headerlink" href="#let-s-set-up-the-development-environment-for-astah-plug-ins" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://astah.net/features/plugins#develop">We provide Astah Plug-in SDK</a> on our website which is based on Maven3.</p>
+<p>Let&#8217;s set up your development environment for Astah Plug-ins! <a class="reference external" href="http://astah.change-vision.com/en/product/astah-requirement.html">System Requirements for this environment are same as Astah&#8217;s</a>.</p>
+<p>At first, extract the Astah Plug-in SDK to a folder and then set the following environment variables.</p>
+<ul>
+<li><p class="first">Add [ASDK_HOME] and specify the folder where you deployed the Astah Plug-in SDK</p>
+<div class="highlight-python"><div class="highlight"><pre>e.g.) set ASDK_HOME=C:\dev\astah-plugin-SDK-1.0
+</pre></div>
+</div>
+</li>
+<li><p class="first">Specify &#8220;%ASDK_HOME%\bin&#8221; (&#8220;$ASDK_HOME/bin&#8221; if you are using Linux or Mac OS X) folder to [PATH], where the excutable files of Astah Plug-in SDK&#8217;s exist</p>
+<div class="highlight-python"><div class="highlight"><pre>e.g.) set PATH=%ASDK_HOME%\bin;%PATH%
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Then run the command below.</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; asdk
+</pre></div>
+</div>
+<p>If the below appears, that means installation of Astah Plug-in SDK is completed.</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah* Plug-in SDK version: 1.0
+</pre></div>
+</div>
+<p>Now, run the command below to make sure Astah launches on the SDK.</p>
+<div class="highlight-python"><div class="highlight"><pre>&gt; astah-launch
+</pre></div>
+</div>
+<p>Then Astah should launch now.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If Astah doesn&#8217;t launch by the command, please check the settings.xml and set the correct location, Astah&#8217;s edition and OS you use in the &lt;profile/&gt; in the %ASDK_HOME%\conf\settings.xml as below.</p>
+</div>
+<div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;profile&gt;</span>
+  <span class="nt">&lt;id&gt;</span>astah-professional-windows<span class="nt">&lt;/id&gt;</span> <span class="c">&lt;!-- Specify the correct edition of Astah and OS you use.  --&gt;</span>
+                                      <span class="c">&lt;!-- In this case,Astah Professional is used on Windows. --&gt;</span>
+  <span class="nt">&lt;activation&gt;</span>
+    <span class="nt">&lt;activeByDefault&gt;</span>false<span class="nt">&lt;/activeByDefault&gt;</span>
+    <span class="nt">&lt;file&gt;</span>
+      <span class="nt">&lt;exists&gt;</span>C:/Program Files/astah-professional/astah-pro.jar<span class="nt">&lt;/exists&gt;</span>  <span class="c">&lt;!-- Make sure to specify the correct path --&gt;</span>
+    <span class="nt">&lt;/file&gt;</span>
+  <span class="nt">&lt;/activation&gt;</span>
+  <span class="nt">&lt;properties&gt;</span>
+    <span class="nt">&lt;astahPath&gt;</span>C:/Program Files/astah-professional<span class="nt">&lt;/astahPath&gt;</span>  <span class="c">&lt;!-- Make sure to specify the correct path --&gt;</span>
+    <span class="nt">&lt;astahEdition&gt;</span>professional<span class="nt">&lt;/astahEdition&gt;</span>
+  <span class="nt">&lt;/properties&gt;</span>
+   <span class="nt">&lt;pluginRepositories&gt;</span>
+     <span class="nt">&lt;pluginRepository&gt;</span>
+       <span class="nt">&lt;id&gt;</span>local_astah_repository<span class="nt">&lt;/id&gt;</span>
+       <span class="nt">&lt;name&gt;</span>Local Astah* Plugin Repository<span class="nt">&lt;/name&gt;</span>
+       <span class="nt">&lt;url&gt;</span>file://${env.M2_HOME}/repository/<span class="nt">&lt;/url&gt;</span>
+       <span class="nt">&lt;layout&gt;</span>default<span class="nt">&lt;/layout&gt;</span>
+       <span class="nt">&lt;snapshots&gt;</span>
+         <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+       <span class="nt">&lt;/snapshots&gt;</span>
+       <span class="nt">&lt;releases&gt;</span>
+         <span class="nt">&lt;updatePolicy&gt;</span>never<span class="nt">&lt;/updatePolicy&gt;</span>
+       <span class="nt">&lt;/releases&gt;</span>
+     <span class="nt">&lt;/pluginRepository&gt;</span>
+   <span class="nt">&lt;/pluginRepositories&gt;</span>
+ <span class="nt">&lt;/profile&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Astah Plug-in SDK is using Maven 3 internally.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="helloworld.html" title="Let’s make a sample Plug-in, “Hello World”"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Astah Plug-in architecture"
+             >previous</a> |</li>
+        <li><a href="index.html">Astah Plug-in Tutorial 1.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Change Vision,inc.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
